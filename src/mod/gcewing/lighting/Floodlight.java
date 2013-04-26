@@ -51,7 +51,7 @@ public class Floodlight {
 				return 0;
 			}
 			if (debugBeamBlocks)
-				System.out.printf("Floodlight.findSourceIntensity: Found %s\n", block.getBlockName());
+				System.out.printf("Floodlight.findSourceIntensity: Found %s\n", block.getUnlocalizedName());
 			if (block instanceof BlockFloodlight) {
 				if (debugBeamBlocks)
 					System.out.printf("Floodlight.findSourceIntensity: Found floodlight\n");
@@ -138,6 +138,10 @@ public class Floodlight {
 			world.setBlock(x, y, z, block.blockID);
 		}
 		TEFloodlightBeam te = getBeamTileEntity(world, x, y, z);
+		
+		if (te == null)
+			return false;
+		
 		boolean result = te.setIntensity(dir, intensity);
 		if (te.allIntensitiesZero()) {
 			if (debugBeamBlocks)

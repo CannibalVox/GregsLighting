@@ -3,21 +3,29 @@ package gcewing.lighting;
 import java.util.ArrayList;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.*;
+import net.minecraft.util.Icon;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
 
 public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 
 	static int renderType;
+	
+	private String mIconBaseName;
+	
+	private Icon[] mFrontIcons = new Icon[2];
+	private Icon[] mSideIcons  = new Icon[2];
+	private Icon[] mRearIcons = new Icon[2];
 
 	public BlockFloodlight(int id) {
-		super(id, 0, Material.rock);
+		this(id, "spotlight", Material.rock);
 	}
 	
-	public BlockFloodlight(int id, int tex, Material mat) {
-		super(id, tex, mat);
-//		setCreativeTab(CreativeTabs.tabMisc);
+	public BlockFloodlight(int id, String iconBase, Material mat) {
+		super(id, mat);
+		mIconBaseName = iconBase;
 	}
 	
 	@Override
@@ -29,28 +37,29 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 	public void setRenderType(int id) {
 		renderType = id;
 	}
-	
-	@Override
-	public String getTextureFile() {
-		return "/gcewing/lighting/resources/textures.png";
-	}
-	
-	@Override
-	public int func_85104_a(World world, int x, int y, int z, int side, float hx, float hy, float hz, int initData) {
-		return side << 1;
-	}
 
 	@Override
-	public int getBlockTextureFromSideAndMetadata(int side, int data) {
-		int base = blockIndexInTexture;
-		if ((data & 1) != 0)
-			base += 3;
+	public Icon getIcon(int side, int metadata) {
+		int lightActive = 0;
+		
+		if ((metadata) != 0)
+			lightActive = 1;
+		
 		switch (side) {
-			case 0: return base; // bottom
-			case 1: return base + 2; // top
-			default: return base + 1; // sides
+			case 0: return mFrontIcons[lightActive]; // bottom
+			case 1: return mRearIcons[lightActive]; // top
+			default: return mSideIcons[lightActive]; // sides
 		}
 	}
+	
+    /**
+     * Called when a block is placed using its ItemBlock. Args: World, X, Y, Z, side, hitX, hitY, hitZ, block metadata
+     */
+	@Override
+    public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
+    {
+        return par5 << 1;
+    }
 	
 	@Override
 	public void onBlockAdded(World world, int x, int y, int z) {
@@ -96,7 +105,7 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 		int oldData = world.getBlockMetadata(x, y, z);
 		int newData = (oldData & 0xe) | (state ? 1 : 0);
 		if (oldData != newData) {
-			world.setBlockMetadata(x, y, z, newData);
+			world.setBlockMetadataWithNotify(x, y, z, newData, 3);
 			world.markBlockForUpdate(x, y, z);
 		}
 	}
@@ -118,4 +127,14 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 		return ForgeDirection.getOrientation(metadata >> 1);
 	}
 	
+	@Override
+	public void registerIcons(IconRegister icon)
+	{
+		mFrontIcons[0] = icon.registerIcon("gregslighting/spotlightOff.front");
+		mFrontIcons[1] = icon.registerIcon("gregslighting/spotlightOn.front");
+		mSideIcons[0] = icon.registerIcon("gregslighting/spotlightOff.side");
+		mSideIcons[1] = icon.registerIcon("gregslighting/spotlightOn.side");
+		mRearIcons[0] = icon.registerIcon("gregslighting/spotlightOff.rear");
+		mRearIcons[1] = icon.registerIcon("gregslighting/spotlightOn.rear");
+	}
 }

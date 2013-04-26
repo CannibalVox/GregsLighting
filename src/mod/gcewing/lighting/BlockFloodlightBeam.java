@@ -10,11 +10,15 @@ import java.util.ArrayList;
 import java.util.Random;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.tileentity.*;
 import net.minecraft.world.*;
 import net.minecraft.util.*;
 
 public class BlockFloodlightBeam extends BaseContainerBlock<TEFloodlightBeam> {
+	
+	Icon litIcon;
+	Icon unlitIcon;
 
 	public BlockFloodlightBeam(int id) {
 		super(id, Material.vine, TEFloodlightBeam.class);
@@ -28,19 +32,17 @@ public class BlockFloodlightBeam extends BaseContainerBlock<TEFloodlightBeam> {
 			setBlockBounds(0F, 0F, 0F, 0F, 0F, 0F);
 	}
 	
-	public String getTextureFile() {
-		return "/gcewing/lighting/resources/textures.png";
-	}
-	
 	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TEFloodlightBeam();
 	}
 
+	@Override
 	public boolean isOpaqueCube() {
 		return false;
 	}
     
+	@Override
 	public boolean isAirBlock(World world, int x, int y, int z)  {
 		return true;
 	}
@@ -57,19 +59,23 @@ public class BlockFloodlightBeam extends BaseContainerBlock<TEFloodlightBeam> {
 		return true;
 	}
 
+	@Override
 	public boolean renderAsNormalBlock() {
 		//return false;
 		return Floodlight.debugBeamBlocks;
 	}
 	
+	@Override
 	public int quantityDropped(Random par1Random) {
 		return 0;
 	}
 
+	@Override
 	public AxisAlignedBB getCollisionBoundingBoxFromPool(World par1World, int par2, int par3, int par4) {
 		return null;
 	}
 
+	@Override
 	public int getRenderType() {
 		if (Floodlight.debugBeamBlocks)
 			return super.getRenderType();
@@ -77,19 +83,24 @@ public class BlockFloodlightBeam extends BaseContainerBlock<TEFloodlightBeam> {
 			return -1;
 	}
 
+	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
 		Floodlight.updateBeams(world, x, y, z);
 	}
 	
-	public int getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
-		//System.out.printf("BlockFloodlightBeam.getBlockTexture for side %d at (%d,%d,%d)\n",
-		//	side, x, y, z);
+	@Override
+	public Icon getBlockTexture(IBlockAccess world, int x, int y, int z, int side) {
 		TEFloodlightBeam te = (TEFloodlightBeam)world.getBlockTileEntity(x, y, z);
-		//System.out.printf("BlockFloodlightBeam.getBlockTexture: intensity = %d\n", te.intensity[side]);
 		if (te.intensity[side] > 0)
-			return 0x31;
+			return litIcon;
 		else
-			return 0x30;
+			return unlitIcon;
 	}
-
+	
+	@Override
+	public void registerIcons(IconRegister icon)
+	{
+		litIcon = icon.registerIcon("gregsLighting/beamOn");
+		unlitIcon = icon.registerIcon("gregslighting/beamOff");
+	}
 }
