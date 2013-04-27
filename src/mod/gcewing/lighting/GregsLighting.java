@@ -50,9 +50,13 @@ public class GregsLighting {
 	static int nextItemID = 1;
 	static boolean autoAssign = true;
 
-	public static boolean isServer;
 	public static GregsLighting mod;
 	public static CreativeTabs itemTab = CreativeTabs.tabMisc;
+	
+	@SidedProxy(
+			clientSide = "gcewing.lighting.GregsLightingClient",
+			serverSide = "gcewing.lighting.GregsLightingServer")
+	public static GregsLightingBase proxy;
 
 	public GregsLighting() {
 		mod = this;
@@ -70,6 +74,7 @@ public class GregsLighting {
 		registerItems();
 		addRecipes();
 		saveConfig();
+		proxy.load();
 	}
 
 	void loadConfig(File mcdir) {
@@ -125,8 +130,8 @@ public class GregsLighting {
 		if (config.getBoolean("enableSimpleFloodlight", true)) {
 			addRecipe(floodlight, 1, "IrI", "IgI", "GGG", 'I', Item.ingotIron,
 					'r', Item.redstone, 'g', glowingIngot, 'G', Block.glass);
-			addRecipe(glowingIngot, 1, "GGG", "GgG", "GGG", 'G',
-					Block.glowStone, 'g', Item.goldNugget);
+			addRecipe(glowingIngot, 1, "GiG", "igi", "GiG", 'G',
+					Block.glowStone, 'g', Item.goldNugget, 'i', Item.ingotIron);
 		}
 	}
 

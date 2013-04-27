@@ -42,13 +42,38 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 	public Icon getIcon(int side, int metadata) {
 		int lightActive = 0;
 		
-		if ((metadata) != 0)
+		if ((metadata & 0x01) != 0)
 			lightActive = 1;
 		
-		switch (side) {
-			case 0: return mFrontIcons[lightActive]; // bottom
-			case 1: return mRearIcons[lightActive]; // top
-			default: return mSideIcons[lightActive]; // sides
+		int frontSide = 1;
+		int rearSide = 0;
+		
+		if ((metadata & 0x04) != 0)
+		{
+			frontSide = 4;
+			rearSide = 5;
+		} else if ((metadata & 0x08) != 0)
+		{
+			frontSide = 2;
+			rearSide = 3;
+		}
+		
+		if ((metadata & 0x02) != 0)
+		{
+			int tmp = frontSide;
+			frontSide = rearSide;
+			rearSide = tmp;
+		}
+		
+		if (side == frontSide)
+		{
+			return mFrontIcons[lightActive];
+		} else if (side == rearSide)
+		{
+			return mRearIcons[lightActive];
+		} else
+		{
+			return mSideIcons[lightActive];
 		}
 	}
 	
@@ -58,7 +83,23 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 	@Override
     public int onBlockPlaced(World par1World, int par2, int par3, int par4, int par5, float par6, float par7, float par8, int par9)
     {
-        return par5 << 1;
+        switch (par5)
+        {
+            case 0:
+            	return 2;
+            case 1:
+                return 0;
+            case 2:
+            	return 8;
+            case 3:
+                return 10;
+            case 4:
+            	return 4;
+            case 5:
+                return 6;
+            default:
+            	return 2;
+        }
     }
 	
 	@Override
@@ -124,7 +165,25 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 	}
 	
 	public ForgeDirection direction(int metadata) {
-		return ForgeDirection.getOrientation(metadata >> 1);
+		
+		metadata = (metadata & 0x0E);
+		switch (metadata)
+		{
+		case 0:
+			return ForgeDirection.UP;
+		case 2:
+			return ForgeDirection.DOWN;
+		case 4:
+			return ForgeDirection.WEST;
+		case 6:
+			return ForgeDirection.EAST;
+		case 8:
+			return ForgeDirection.NORTH;
+		case 10:
+			return ForgeDirection.SOUTH;
+		default:
+			return ForgeDirection.UP;
+		}
 	}
 	
 	@Override
