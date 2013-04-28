@@ -28,7 +28,7 @@
 		<equals arg1="${forge.build.number}" arg2="${forge.buildnum}" />
 	</condition>
 
-	<property name="verclass.dir" value="${mcpsrc.dir}/gcewing/lighting" />
+	<property name="verclass.dir" value="${mcpsrc.dir}/mod/gcewing/lighting" />
 	<property name="verclass.name" value="GregsLighting.java"/>
 
 	<mkdir dir="${download.dir}"/>
@@ -36,9 +36,9 @@
 	
 	<target name="get-version" depends="setup-forge">
 		<!-- Copy source -->
-		<mkdir dir="${mcpsrc.dir}/powercrystals" />
-		<copy todir="${mcpsrc.dir}/powercrystals" overwrite="true">
-			<fileset dir="${src.dir}/powercrystals"/>
+		<mkdir dir="${mcpsrc.dir}/mod/gcewing/lighting" />
+		<copy todir="${mcpsrc.dir}/mod/gcewing/lighting" overwrite="true">
+			<fileset dir="${src.dir}/mod/gcewing/lighting"/>
 		</copy>
 		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
 
@@ -67,10 +67,10 @@
 		<jar destfile="${dist.dir}/GregsLighting-${python.out}-${build.number}.jar" basedir="${classes.dir}"/>
 		<delete dir="${classes.dir}" />
 		<delete dir="${mcp.dir}/reobf"/>
-		<delete dir="${mcpsrc.dir}/gcewing/lighting" />
+		<delete dir="${mcpsrc.dir}/mod/gcewing/lighting" />
 	</target>
 
-	<target name="build" depends="extract-dependencies" unless="already-compiled">
+	<target name="build" depends="setup-forge,get-version" unless="already-compiled">
 		<!-- Recompile -->
 		<exec dir="${mcp.dir}" executable="cmd" osfamily="windows" failonerror="true">
 			<arg line="/c recompile.bat"/>
@@ -95,12 +95,12 @@
 		</copy>
 		
 		<copy todir="${classes.dir}/textures/blocks/gregslighting">
-			<fileset dir="${mcpsrc.dir}/resources/textures/blocks/gregslighting">
+			<fileset dir="${resources.dir}/textures/blocks/gregslighting">
 				<include name="*.png" />
 			</fileset>
 		</copy>
 		<copy todir="${classes.dir}/textures/items">
-			<fileset dir="${mcpsrc.dir}/resources/textures/items">
+			<fileset dir="${resources.dir}/textures/items">
 				<include name="*.png" />
 			</fileset>
 		</copy>
@@ -118,7 +118,7 @@
 		<property name="build.number" value="CUSTOM_BUILD" />
 	</target>
 
-	<target name="setup-forge" depends="download-core,download-forge,build-number-there,build-number-not-there" unless="forge.already.installed">
+	<target name="setup-forge" depends="download-forge,build-number-there,build-number-not-there" unless="forge.already.installed">
 
 		<property name="build.full" value="${build.number}" />
 		<unzip dest="${build.dir}">
@@ -151,9 +151,9 @@
 		<chmod file="${mcp.dir}/runtime/bin/jad-osx" perm="+x" />
 
 		<!-- Copy source -->
-		<mkdir dir="${mcpsrc.dir}/gcewing" />
-		<copy todir="${mcpsrc.dir}/gcewing" overwrite="true">
-			<fileset dir="${src.dir}/gcewing"/>
+		<mkdir dir="${mcpsrc.dir}/mod/gcewing" />
+		<copy todir="${mcpsrc.dir}/mod/gcewing" overwrite="true">
+			<fileset dir="${src.dir}/mod/gcewing"/>
 		</copy>
 		<copy todir="${mcpsrc.dir}" file="mcmod.info" overwrite="true"/>
 	</target>
