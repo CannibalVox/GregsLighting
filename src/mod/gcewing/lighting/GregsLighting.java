@@ -31,7 +31,7 @@ import net.minecraft.item.crafting.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.world.*;
 
-@Mod(modid = "GregsLighting", name = "Greg's Lighting", version = "1.8.0")
+@Mod(modid = "GregsLighting", name = "Greg's Lighting", version = GregsLighting.version)
 @NetworkMod(clientSideRequired = true, serverSideRequired = true, versionBounds = "[1.8,1.9)")
 public class GregsLighting {
 
@@ -39,6 +39,7 @@ public class GregsLighting {
 
 	public static BlockFloodlight floodlight;
 	public static BlockFloodlightBeam floodlightBeam;
+	public static final String version = "1.5.1R1.8.0B1";
 
 	public static Item glowingIngot;
 
@@ -64,11 +65,12 @@ public class GregsLighting {
 
 	@Mod.PreInit
 	public void init(FMLPreInitializationEvent e) {
-		load(Minecraft.getMinecraftDir());
+		cfgfile = e.getSuggestedConfigurationFile();
+		load();
 	}
 
-	public void load(File mcdir) {
-		loadConfig(mcdir);
+	public void load() {
+		loadConfig();
 		registerBlocks();
 		registerTileEntities();
 		registerItems();
@@ -77,9 +79,7 @@ public class GregsLighting {
 		proxy.load();
 	}
 
-	void loadConfig(File mcdir) {
-		File cfgdir = new File(mcdir, "/config/");
-		cfgfile = new File(cfgdir, configName);
+	void loadConfig() {
 		config = new OrderedProperties();
 		try {
 			config.load(new FileInputStream(cfgfile));
