@@ -32,7 +32,7 @@ import net.minecraft.tileentity.*;
 import net.minecraft.world.*;
 
 @Mod(modid = "GregsLighting", name = "Greg's Lighting", version = GregsLighting.version)
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, versionBounds = "[1.8,1.9)")
+@NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class GregsLighting {
 
 	public final static String modName = "GregsLighting";
