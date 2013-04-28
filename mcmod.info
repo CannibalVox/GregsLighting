@@ -1,0 +1,21 @@
+[
+{
+  "modid": "GregsLighting",
+  "name": "Greg's Lighting",
+  "description": "Adds superbright floodlights to the game.",
+  "version": "1.8.0",
+  "mcversion": "1.5.1",
+  "updateUrl": "",
+  "authors": [
+    "Greg Ewing",
+    "CannibalVox"
+  ],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

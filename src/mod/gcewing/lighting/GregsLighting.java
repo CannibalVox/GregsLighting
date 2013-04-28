@@ -31,8 +31,8 @@ import net.minecraft.item.crafting.*;
 import net.minecraft.tileentity.*;
 import net.minecraft.world.*;
 
-@Mod(modid = "GregsLighting", name = "Greg's Lighting", version = "1.7.1")
-@NetworkMod(clientSideRequired = true, serverSideRequired = true, versionBounds = "[1.7,1.8)")
+@Mod(modid = "GregsLighting", name = "Greg's Lighting", version = "1.8.0")
+@NetworkMod(clientSideRequired = true, serverSideRequired = true, versionBounds = "[1.8,1.9)")
 public class GregsLighting {
 
 	public final static String modName = "GregsLighting";
