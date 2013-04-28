@@ -39,7 +39,7 @@ public class GregsLighting {
 
 	public static BlockFloodlight floodlight;
 	public static BlockFloodlightBeam floodlightBeam;
-	public static final String version = "1.5.1R1.8.0B1";
+	public static final String version = "1.5.1R1.8.1B1";
 
 	public static Item glowingIngot;
 
