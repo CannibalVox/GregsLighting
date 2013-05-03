@@ -1,6 +1,8 @@
 package gcewing.lighting;
 
 import java.util.ArrayList;
+
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -117,8 +119,15 @@ public class BlockFloodlight extends BlockContainer implements BaseIRenderType {
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
-		update(world, x, y, z);
-		updateBeam(world, x, y, z);
+		try
+		{
+			update(world, x, y, z);
+			updateBeam(world, x, y, z);
+		} catch (Exception ex)
+		{
+			FMLLog.severe("Exception while updating floodlight from neighbor.");
+			ex.printStackTrace();
+		}
 	}
 
 	@Override

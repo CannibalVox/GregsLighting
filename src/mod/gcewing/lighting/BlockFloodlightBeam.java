@@ -8,6 +8,8 @@ package gcewing.lighting;
 
 import java.util.ArrayList;
 import java.util.Random;
+
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.block.*;
 import net.minecraft.block.material.*;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -85,7 +87,14 @@ public class BlockFloodlightBeam extends BaseContainerBlock<TEFloodlightBeam> {
 
 	@Override
 	public void onNeighborBlockChange(World world, int x, int y, int z, int neighborBlockID) {
-		Floodlight.updateBeams(world, x, y, z);
+		try
+		{
+			Floodlight.updateBeams(world, x, y, z);
+		} catch (Exception ex)
+		{
+			FMLLog.severe("Exception while updating floodlight beam from neighbor.");
+			ex.printStackTrace();
+		}
 	}
 	
 	@Override
