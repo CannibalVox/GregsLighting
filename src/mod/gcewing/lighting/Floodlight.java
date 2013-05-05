@@ -105,7 +105,7 @@ public class Floodlight {
 				return;
 			}
 			if (block == null || block instanceof BlockFloodlightBeam)
-				if (!setBeamIntensity(world, bx, by, bz, dir, intensity - i,false) && i != start) {
+				if (!setBeamIntensity(world, bx, by, bz, dir, intensity - i) && i != start) {
 					if (debugBeamBlocks)
 						System.out.printf("Floodlight.propagateBeam: Intensity already correct\n");
 					return;
@@ -122,7 +122,7 @@ public class Floodlight {
 		return te.getIntensity(dir);
 	}
 	
-	static boolean setBeamIntensity(World world, int x, int y, int z, ForgeDirection dir, int intensity, boolean updateNeighbors) {
+	static boolean setBeamIntensity(World world, int x, int y, int z, ForgeDirection dir, int intensity) {
 		// Returns true if intensity was changed
 		if (intensity < 0)
 			intensity = 0;
@@ -135,7 +135,7 @@ public class Floodlight {
 			if (debugBeamBlocks)
 				System.out.printf("Floodlight.setBeamIntensity: Placing beam block\n");
 			block = GregsLighting.floodlightBeam;
-			world.setBlock(x, y, z, block.blockID, 0, (updateNeighbors)?3:2);
+			world.setBlock(x, y, z, block.blockID, 0, 2);
 		}
 		TEFloodlightBeam te = getBeamTileEntity(world, x, y, z);
 		
@@ -146,7 +146,7 @@ public class Floodlight {
 		if (te.allIntensitiesZero()) {
 			if (debugBeamBlocks)
 				System.out.printf("Floodlight.setBeamIntensity: Removing beam block\n");
-			world.setBlock(x, y, z, 0);
+			world.setBlock(x, y, z, 0, 0, 2);
 		}
 		return result;
 	}
