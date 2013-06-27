@@ -1,6 +1,7 @@
 package gcewing.lighting;
 
 import net.minecraft.block.*;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.*;
 import net.minecraftforge.common.*;
 
@@ -119,7 +120,10 @@ public class Floodlight {
 	
 	static int beamIntensity(World world, int x, int y, int z, ForgeDirection dir) {
 		TEFloodlightBeam te = getBeamTileEntity(world, x, y, z);
-		return te.getIntensity(dir);
+		if (te != null) {
+			return te.getIntensity(dir);
+		}
+		return 0;
 	}
 	
 	static boolean setBeamIntensity(World world, int x, int y, int z, ForgeDirection dir, int intensity) {
@@ -152,7 +156,11 @@ public class Floodlight {
 	}
 	
 	static TEFloodlightBeam getBeamTileEntity(World world, int x, int y, int z) {
-		return (TEFloodlightBeam)world.getBlockTileEntity(x, y, z);
+		TileEntity te = world.getBlockTileEntity(x, y, z);
+		if (te instanceof TEFloodlightBeam) {
+			return (TEFloodlightBeam)te;
+		}
+		return null;
 	}
 
 }
