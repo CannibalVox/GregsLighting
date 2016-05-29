@@ -1,0 +1,11 @@
+tile.gcewing_lighting:carbideFloodlight.name=合金泛光灯
+tile.gcewing_lighting:floodlight.name=泛光灯
+tile.gcewing_lighting:ic2ElectricFloodlight.name=IC2电力泛光灯
+tile.gcewing_lighting:ic2ElectricFloodlightOn.name=IC2电力泛光灯
+item.gcewing_lighting:calciumCarbide.name=碳化钙
+item.gcewing_lighting:bonemealAndCharcoal.name=骨粉和木炭的混合体
+item.gcewing_lighting:gasNozzle.name=气嘴
+item.gcewing_lighting:glowingIngot.name=发光的合金锭
+item.gcewing_lighting:glowstoneBulb.name=IC2泛光灯灯泡
+item.gcewing_lighting:ic2FilamentAssembly.name= IC2灯丝组件
+itemGroup.gcewing_lighting:tab=Greg's Lighting
